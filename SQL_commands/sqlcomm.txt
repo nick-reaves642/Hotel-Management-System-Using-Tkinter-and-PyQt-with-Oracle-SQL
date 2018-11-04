@@ -1,0 +1,47 @@
+create table test(
+name varchar(20) default null,
+room_no int,
+floor int not null,
+available varchar(2) not null,
+entry date,
+cost int default 0,
+phone int unique,
+constraint chk_room check (mod(room_no,floor*100)<=9 and mod(room_no,floor*100)>=0),
+constraint chk_floor check (floor<=13 and floor>=0),
+constraint chk_act check(available='y' or available='n'),
+constraint chk check((available='n' and name=null ) or (available='y' and name<>null)),
+constraint pk primary key(room_no));
+
+
+
+create table avail(
+available varchar(2) not null,
+room_no int not null);
+
+
+drop table avail;
+drop table test;
+
+insert into avail
+select available,room_no
+from test
+where available='y';
+
+select * from avail;
+select * from test;
+
+
+alter table test
+add cost int;
+
+create table Customer(
+Fullname varchar(20),
+Phone varchar(20) primary key,
+Gender varchar(10),
+entry date,
+exit date,
+cost int,
+room int
+);
+alter table Customer
+add constraint pk_phn primary key(Phone);
